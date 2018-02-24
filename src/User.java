@@ -28,6 +28,10 @@ public class User {
         return mLatitude;
     }
 
+    public List<String> getContacts() {
+        return mContacts;
+    }
+
     public void addContact(String userId) {
         mContacts.add(userId);
     }
