@@ -69,9 +69,6 @@ public class ClientThread implements Runnable {
     }
 
     private void sendUserInfo(User user) {
-        mOutput.println(user.getUserId());
-        mOutput.println(user.getName());
-        mOutput.println(user.getLatitude());
-        mOutput.println(user.getLongitude());
+        mOutput.println(user.toString());
     }
 }
