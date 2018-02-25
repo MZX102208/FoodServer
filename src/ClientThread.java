@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.List;
 
 public class ClientThread implements Runnable {
 
@@ -18,6 +19,8 @@ public class ClientThread implements Runnable {
         String UPDATE_SERVER_USER = "update_server_user";
         String CLIENT_JOIN_GROUP = "join_group";
         String CLIENT_CREATE_GROUP = "create_group";
+        String CREATE_EVENT = "create_event";
+        String GET_RESTAURANT_LIST = "get_restaurant_list";
 
         String JOIN_GROUP_SUCCESS = "join_success";
         String JOIN_GROUP_FAIL = "join_fail";
@@ -37,15 +40,23 @@ public class ClientThread implements Runnable {
 
     @Override
     public void run() {
+        int groupId;
+        Group g;
         switch(nextLine()) {
             case Commands.CLIENT_GET_CURRENT_USER_INFO:
                 break;
             case Commands.UPDATE_SERVER_USER:
-                Main.users.replace(mCurrentUser.getUserId(), User.userFromInput(mInput));
-                mCurrentUser = Main.users.get(mCurrentUser.getUserId());
+                User newUser = User.userFromInput(mInput);
+                mCurrentUser.setPhotoId(newUser.getPhotoId());
+                mCurrentUser.setLatitude(newUser.getLatitude());
+                mCurrentUser.setLongitude(newUser.getLatitude());
+                mCurrentUser.setRadius(newUser.getRadius());
+                mCurrentUser.setCuisinePrefs(newUser.getCuisinePrefs());
+                mCurrentUser.setCuisineDislikes(newUser.getCuisineDislikes());
+                mCurrentUser.setDietaryRestrictions(newUser.getDietaryRestrictions());
                 break;
             case Commands.CLIENT_JOIN_GROUP:
-                 int groupId = Integer.parseInt(nextLine());
+                 groupId = Integer.parseInt(nextLine());
                  if (Main.groups.containsKey(groupId)) {
                      Main.groups.get(groupId).addPeople(mCurrentUser);
                      mCurrentUser.addGroup(Main.groups.get(groupId));
@@ -57,9 +68,16 @@ public class ClientThread implements Runnable {
             case Commands.CLIENT_CREATE_GROUP:
                 String title = nextLine();
                 String photoId = nextLine();
-                Group g = Main.generateNewGroup(title, photoId);
+                g = Main.generateNewGroup(title, photoId);
                 g.addPeople(mCurrentUser);
                 mCurrentUser.addGroup(g);
+                break;
+            case Commands.GET_RESTAURANT_LIST:
+                groupId = Integer.parseInt(nextLine());
+                List<Restaurant> restaurantList = Main.generateSelection(groupId, mCurrentUser);
+                mOutput.println(restaurantList.size());
+                for (Restaurant r : restaurantList) mOutput.print(r.toString());
+                mOutput.println();
                 break;
         }
         mOutput.println(mCurrentUser.toString());

@@ -3,13 +3,26 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientUtility {
 
 
     public static void main(String[] args) {
         User u = getCurrentUserInfo("sghsri");
-        System.out.print(u);
+        System.out.print(u.getName());
+        createGroup("sghsri", "title123", "12131321312321");
+        joinGroup("mhykol", 1230);
+        u.addCuisineDislike(Cuisine.Categories.AMERICAN_FOOD);
+        u.addCuisinePref(Cuisine.Categories.ASIAN_FOOD);
+        u.addDietaryRestrict(Cuisine.Categories.VEGETARIAN);
+        updateServer(u.getUserId(), u);
+        u = getCurrentUserInfo("mhykol");
+        u.addCuisineDislike(Cuisine.Categories.ASIAN_FOOD);
+        u.addCuisinePref(Cuisine.Categories.SOUTH_ASIA_FOOD);
+        updateServer(u.getUserId(), u);
+        System.out.println(getRestaurants(u.getUserId(), 1230));
     }
 
     private static final int PORT_NUMBER = 3233;
@@ -20,6 +33,7 @@ public class ClientUtility {
         String UPDATE_SERVER_USER = "update_server_user";
         String CLIENT_JOIN_GROUP = "join_group";
         String CLIENT_CREATE_GROUP = "create_group";
+        String GET_RESTAURANT_LIST = "get_restaurant_list";
 
         String JOIN_GROUP_SUCCESS = "join_success";
         String JOIN_GROUP_FAIL = "join_fail";
@@ -84,6 +98,27 @@ public class ClientUtility {
             out.println(Commands.UPDATE_SERVER_USER);
             out.println(user.toString());
             return User.userFromInput(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<Restaurant> getRestaurants(String userId, int groupId) {
+        try {
+            Socket socket = new Socket("localhost", PORT_NUMBER);
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(socket.getInputStream()));
+            out.println(userId);
+            out.println(Commands.GET_RESTAURANT_LIST);
+            out.println(String.valueOf(groupId));
+            int numRest = Integer.parseInt(in.readLine());
+            List<Restaurant> list = new ArrayList<>();
+            for (int i = 0; i < numRest; i++) {
+                list.add(Restaurant.getRestaurantFromInput(in));
+            }
+            return list;
         } catch (IOException e) {
             e.printStackTrace();
         }

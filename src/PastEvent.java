@@ -47,7 +47,7 @@ public class PastEvent {
 
             int numParticipants = Integer.parseInt(input.readLine());
             for (int i = 0; i < numParticipants; i++) {
-                p.addParticipants(User.surfaceUserFromInput(input));
+                p.addParticipants(User.userFromInput(input));
             }
             return p;
         } catch (IOException e) {

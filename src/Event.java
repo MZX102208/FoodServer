@@ -5,26 +5,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Event {
-    private int mId;
     private Restaurant mRestaurant;
     private DateTime mDate;
     private User mHead;
     private List<User> mParticipants = new ArrayList<>();
+    private List<User> mInvited = new ArrayList<>();
 
-    public Event(int id, Restaurant restaurant, DateTime date, User head) {
-        mId = id;
+    public Event(Restaurant restaurant, DateTime date, User head) {
         mRestaurant = restaurant;
         mDate = date;
         mHead = head;
     }
 
     public void addParticipants(User user) {
+        mInvited.remove(user);
         mParticipants.add(user);
     }
 
+    public void addInvites(User user) {
+        mInvited.add(user);
+    }
 
-    public int getId() {
-        return mId;
+    public List<User> getInvited() {
+        return mInvited;
     }
 
     public Restaurant getRestaurant() {
@@ -46,27 +49,31 @@ public class Event {
     @Override
     public String toString() {
         String str = "";
-        str += mId + "\n";
         str += mRestaurant.toString();
         str += Utility.getDateTimeString(mDate);
-        str += mHead.toString();
+        str += mHead.surfaceToString();
         str += mParticipants.size() + "\n";
         for (User u : mParticipants) {
-            str += u.toString();
+            str += u.surfaceToString();
+        }
+        str += mInvited.size() + "\n";
+        for (User u : mInvited) {
+            str += u.surfaceToString();
         }
         return str;
     }
 
     public static Event readInEvent(BufferedReader input) {
         try {
-            int id = Integer.parseInt(input.readLine());
             Restaurant r = Restaurant.getRestaurantFromInput(input);
             DateTime dateTime = Utility.readInDateTime(input);
-            User head = User.userFromInput(input);
+            User head = User.surfaceUserFromInput(input);
 
-            Event e = new Event(id, r, dateTime, head);
+            Event e = new Event(r, dateTime, head);
             int numParticipants = Integer.parseInt(input.readLine());
-            for (int i = 0; i < numParticipants; i++) e.addParticipants(User.userFromInput(input));
+            for (int i = 0; i < numParticipants; i++) e.addParticipants(User.surfaceUserFromInput(input));
+            int numInvited = Integer.parseInt(input.readLine());
+            for (int i = 0; i < numInvited; i++) e.addInvites(User.surfaceUserFromInput(input));
             return e;
         } catch (Exception e) {
             e.printStackTrace();

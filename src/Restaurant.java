@@ -7,6 +7,7 @@ public class Restaurant {
     private double mLatitude, mLongitude;
     private String mCuisine;
     private double mAverageCostForTwo;
+    private String mSelectionDescription;
 
     public String getId() {
         return mId;
@@ -64,6 +65,14 @@ public class Restaurant {
         this.mAverageCostForTwo = averageCostForTwo;
     }
 
+    public String getSelectionDescription() {
+        return mSelectionDescription;
+    }
+
+    public void setSelectionDescription(String mSelectionDescription) {
+        this.mSelectionDescription = mSelectionDescription;
+    }
+
     @Override
     public String toString() {
         String str = "";
@@ -74,6 +83,7 @@ public class Restaurant {
         str += mLongitude + "\n";
         str += mCuisine + "\n";
         str += mAverageCostForTwo + "\n";
+        str += mSelectionDescription + "\n";
         return str;
     }
 
@@ -87,6 +97,7 @@ public class Restaurant {
             r.setLongitude(Double.parseDouble(input.readLine()));
             r.setCuisine(input.readLine());
             r.setAverageCostForTwo(Double.parseDouble(input.readLine()));
+            r.setSelectionDescription(input.readLine());
             return r;
         } catch (Exception e) {
             e.printStackTrace();

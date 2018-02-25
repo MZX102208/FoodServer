@@ -123,6 +123,18 @@ public class User {
         return mHistory;
     }
 
+    public void setCuisinePrefs(Set<String> list) {
+        mCuisinePrefs = list;
+    }
+
+    public void setCuisineDislikes(Set<String> list) {
+        mCuisineDislikes = list;
+    }
+
+    public void setDietaryRestrictions(Set<String> list) {
+        mDietaryRestrictions = list;
+    }
+
     @Override
     public String toString() {
         String str = "";
@@ -147,9 +159,7 @@ public class User {
 
     public static User userFromInput(BufferedReader input) {
         try {
-            System.out.println("lololol12333333");
             User user = new User(input.readLine(), input.readLine());
-            System.out.println("test12333333");
             user.setLatitude(Double.parseDouble(input.readLine()));
             user.setLongitude(Double.parseDouble(input.readLine()));
 
