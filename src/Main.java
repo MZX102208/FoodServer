@@ -1,9 +1,4 @@
-import org.joda.time.DateTime;
-
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -51,4 +46,14 @@ public class Main {
         removeThreads.run();
     }
 
+    public static double[] computeCentroid(List<Double> latitudes, List<Double> longitudes) {
+        double latitude = 0;
+        double longitude = 0;
+        int n = latitudes.size();
+
+        for (double d : latitudes) latitude += d;
+        for (double d : longitudes) longitude += d;
+
+        return new double[] {latitude/n, longitude/n};
+    }
 }
