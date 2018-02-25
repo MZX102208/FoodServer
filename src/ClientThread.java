@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -9,12 +10,17 @@ public class ClientThread implements Runnable {
     private PrintWriter mOutput;
     private BufferedReader mInput;
 
-    private User currentUser;
+    private User mCurrentUser;
 
     interface Commands {
         String REJECTED = "Rejected";
-        String CLIENT_TO_SERVER_FRIENDS = "server_friends_list";
-        String SERVER_TO_CLIENT_FRIENDS = "client_friends_list";
+        String CLIENT_GET_CURRENT_USER_INFO = "get_current_user_info";
+        String UPDATE_SERVER_USER = "update_server_user";
+        String CLIENT_JOIN_GROUP = "join_group";
+        String CLIENT_CREATE_GROUP = "create_group";
+
+        String JOIN_GROUP_SUCCESS = "join_success";
+        String JOIN_GROUP_FAIL = "join_fail";
     }
 
     ClientThread(Socket soc) {
@@ -25,25 +31,52 @@ public class ClientThread implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        currentUser = Main.users.get(nextLine());
+        String s = nextLine();
+        mCurrentUser = Main.users.get(s);
     }
 
     @Override
     public void run() {
-        while(!mSocket.isClosed()) {
-            switch(nextLine()) {
-
-            }
+        switch(nextLine()) {
+            case Commands.CLIENT_GET_CURRENT_USER_INFO:
+                break;
+            case Commands.UPDATE_SERVER_USER:
+                Main.users.replace(mCurrentUser.getUserId(), User.userFromInput(mInput));
+                mCurrentUser = Main.users.get(mCurrentUser.getUserId());
+                break;
+            case Commands.CLIENT_JOIN_GROUP:
+                 int groupId = Integer.parseInt(nextLine());
+                 if (Main.groups.containsKey(groupId)) {
+                     Main.groups.get(groupId).addPeople(mCurrentUser);
+                     mCurrentUser.addGroup(Main.groups.get(groupId));
+                     mOutput.println(Commands.JOIN_GROUP_SUCCESS);
+                 } else {
+                     mOutput.println(Commands.JOIN_GROUP_FAIL);
+                 }
+                 break;
+            case Commands.CLIENT_CREATE_GROUP:
+                String title = nextLine();
+                String photoId = nextLine();
+                Group g = Main.generateNewGroup(title, photoId);
+                g.addPeople(mCurrentUser);
+                mCurrentUser.addGroup(g);
+                break;
         }
+        mOutput.println(mCurrentUser.toString());
+
+        try {
+            mSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public User getCurrentUser() {
+        return mCurrentUser;
     }
 
     public void reject() {
         mOutput.println("Rejected");
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
     }
 
     public boolean isClosed() {

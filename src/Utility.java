@@ -22,9 +22,10 @@ public class Utility {
     public static String getDateTimeString(DateTime date) {
         String str = date.getYear() + "\n";
         str += date.monthOfYear().get() + "\n";
-        str += date.dayOfMonth() + "\n";
+        str += date.dayOfMonth().get() + "\n";
         str += date.getHourOfDay() + "\n";
         str += date.getMinuteOfHour() + "\n";
         return str;
     }
+
 }

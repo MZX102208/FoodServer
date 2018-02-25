@@ -36,7 +36,7 @@ public class PastEvent {
         String str = mName + "\n";
         str += Utility.getDateTimeString(mDate);
         str += mParicipants.size() + "\n";
-        for (User u : mParicipants) str += u.toString();
+        for (User u : mParicipants) str += u.surfaceToString();
         return str;
     }
 
@@ -47,7 +47,7 @@ public class PastEvent {
 
             int numParticipants = Integer.parseInt(input.readLine());
             for (int i = 0; i < numParticipants; i++) {
-                p.addParticipants(User.userFromInput(input));
+                p.addParticipants(User.surfaceUserFromInput(input));
             }
             return p;
         } catch (IOException e) {
