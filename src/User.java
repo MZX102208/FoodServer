@@ -67,4 +67,5 @@ public class User {
     public void setLatitude(double mLatitude) {
         this.mLatitude = mLatitude;
     }
+
 }
