@@ -1,4 +1,9 @@
+import org.joda.time.DateTime;
+
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -7,8 +12,10 @@ public class Main {
     private static final int PORT_NUMBER = 3233;
     private static Map<String, ClientThread> clientThreads = new ConcurrentHashMap<>();
     public static Map<String, User> users = new ConcurrentHashMap<>();
+    public static List<Cuisine> cuisineTypes;
 
     public static void main(String[] args) {
+        cuisineTypes = Cuisine.initCuisines();
         startAcceptingConnections();
         removeClosedThreads();
     }
@@ -43,6 +50,5 @@ public class Main {
         });
         removeThreads.run();
     }
-
 
 }

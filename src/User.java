@@ -1,13 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class User {
     private String mName;
     private String mUserId;
     private double mLongitude, mLatitude;
-    private List<String> mContacts = new ArrayList<>();
 
     public User(String userId, String name) {
         mUserId = userId;
@@ -30,12 +27,12 @@ public class User {
         return mLatitude;
     }
 
-    public List<String> getContacts() {
-        return mContacts;
+    public void setLongitude(double mLongitude) {
+        this.mLongitude = mLongitude;
     }
 
-    public void addContact(String userId) {
-        mContacts.add(userId);
+    public void setLatitude(double mLatitude) {
+        this.mLatitude = mLatitude;
     }
 
     @Override
@@ -58,13 +55,5 @@ public class User {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public void setLongitude(double mLongitude) {
-        this.mLongitude = mLongitude;
-    }
-
-    public void setLatitude(double mLatitude) {
-        this.mLatitude = mLatitude;
     }
 }

@@ -33,17 +33,8 @@ public class ClientThread implements Runnable {
     public void run() {
         while(!mSocket.isClosed()) {
             switch(nextLine()) {
-                case Commands.SERVER_TO_CLIENT_FRIENDS:
-                    sendContactsToClient();
-                    break;
-            }
-        }
-    }
 
-    private void sendContactsToClient() {
-        mOutput.println(currentUser.getContacts().size());
-        for (int i = 0; i < currentUser.getContacts().size(); i++) {
-            mOutput.println(currentUser.getContacts().get(i));
+            }
         }
     }
 
