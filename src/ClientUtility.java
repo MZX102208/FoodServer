@@ -33,6 +33,7 @@ public class ClientUtility {
         String UPDATE_SERVER_USER = "update_server_user";
         String CLIENT_JOIN_GROUP = "join_group";
         String CLIENT_CREATE_GROUP = "create_group";
+        String CREATE_EVENT = "create_event";
         String GET_RESTAURANT_LIST = "get_restaurant_list";
 
         String JOIN_GROUP_SUCCESS = "join_success";
@@ -118,7 +119,25 @@ public class ClientUtility {
             for (int i = 0; i < numRest; i++) {
                 list.add(Restaurant.getRestaurantFromInput(in));
             }
+            User.userFromInput(in);
             return list;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static User makeEvent(String mId, int groupId, Event event) {
+        try {
+            Socket socket = new Socket("localhost", PORT_NUMBER);
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(socket.getInputStream()));
+            out.println(mId);
+            out.println(Commands.CREATE_EVENT);
+            out.println(groupId);
+            out.println(event.toString());
+            return User.userFromInput(in);
         } catch (IOException e) {
             e.printStackTrace();
         }

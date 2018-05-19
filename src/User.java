@@ -1,9 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class User {
     private String mName;
@@ -12,7 +9,7 @@ public class User {
     private double mLongitude, mLatitude;
     private List<Group> mGroups = new ArrayList<>();
     private double mRadius;
-    private Set<String> mCuisinePrefs = new HashSet<>();
+    private Map<String, Integer> mCuisinePrefs = new HashMap<>();
     private Set<String> mCuisineDislikes = new HashSet<>();
     private Set<String> mDietaryRestrictions = new HashSet<>();
     private List<PastEvent> mHistory = new ArrayList<>();
@@ -54,8 +51,8 @@ public class User {
         mRadius = r;
     }
 
-    public void addCuisinePref(String c) {
-        mCuisinePrefs.add(c);
+    public void addCuisinePref(String c, int i) {
+        mCuisinePrefs.put(c, i);
     }
 
     public void removeCuisinePref(String c) {
@@ -86,7 +83,7 @@ public class User {
         return mPhotoId;
     }
 
-    public Set<String> getCuisinePrefs() {
+    public Map<String, Integer> getCuisinePrefs() {
         return mCuisinePrefs;
     }
 
@@ -123,7 +120,7 @@ public class User {
         return mHistory;
     }
 
-    public void setCuisinePrefs(Set<String> list) {
+    public void setCuisinePrefs(Map<String, Integer> list) {
         mCuisinePrefs = list;
     }
 
@@ -145,7 +142,8 @@ public class User {
         str += mGroups.size() + "\n";
         for (Group g : mGroups) str += g.toString();
         str += mCuisinePrefs.size() + "\n";
-        for (String s : mCuisinePrefs) str += s + "\n";
+        for (String s : mCuisinePrefs.keySet()) str += s + "\n";
+        for (String s : mCuisinePrefs.keySet()) str += mCuisinePrefs.get(s) + "\n";
         str += mCuisineDislikes.size() + "\n";
         for (String s : mCuisineDislikes) str += s + "\n";
         str += mDietaryRestrictions.size() + "\n";
@@ -166,7 +164,7 @@ public class User {
             Integer numGroups = Integer.parseInt(input.readLine());
             for (int i = 0; i < numGroups; i++) user.addGroup(Group.getGroupFromInput(input));
             Integer numPrefs = Integer.parseInt(input.readLine());
-            for (int i = 0; i < numPrefs; i++) user.addCuisinePref(input.readLine());
+            for (int i = 0; i < numPrefs; i++) user.addCuisinePref(input.readLine(), Integer.parseInt(input.readLine()));
             Integer numDislikes = Integer.parseInt(input.readLine());
             for (int i = 0; i < numDislikes; i++) user.addCuisineDislike(input.readLine());
             Integer numRestrict = Integer.parseInt(input.readLine());
@@ -190,7 +188,7 @@ public class User {
             user.setLongitude(Double.parseDouble(input.readLine()));
 
             Integer numPrefs = Integer.parseInt(input.readLine());
-            for (int i = 0; i < numPrefs; i++) user.addCuisinePref(input.readLine());
+            for (int i = 0; i < numPrefs; i++) user.addCuisinePref(input.readLine(), Integer.parseInt(input.readLine()));
             Integer numDislikes = Integer.parseInt(input.readLine());
             for (int i = 0; i < numDislikes; i++) user.addCuisineDislike(input.readLine());
             Integer numRestrict = Integer.parseInt(input.readLine());
@@ -212,7 +210,8 @@ public class User {
         str += mLatitude + "\n";
         str += mLongitude + "\n";
         str += mCuisinePrefs.size() + "\n";
-        for (String s : mCuisinePrefs) str += s + "\n";
+        for (String s : mCuisinePrefs.keySet()) str += s + "\n";
+        for (String s : mCuisinePrefs.keySet()) str += mCuisinePrefs.get(s) + "\n";
         str += mCuisineDislikes.size() + "\n";
         for (String s : mCuisineDislikes) str += s + "\n";
         str += mDietaryRestrictions.size() + "\n";
