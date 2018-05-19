@@ -14,13 +14,13 @@ public class ClientUtility {
         System.out.print(u.getName());
         createGroup("sghsri", "title123", "12131321312321");
         joinGroup("mhykol", 1230);
-        u.addCuisineDislike(Cuisine.Categories.AMERICAN_FOOD);
-        u.addCuisinePref(Cuisine.Categories.ASIAN_FOOD);
+        u.addCuisineDislike(Cuisine.Categories.AMERICAN);
+        u.addCuisinePref(Cuisine.Categories.ASIAN);
         u.addDietaryRestrict(Cuisine.Categories.VEGETARIAN);
         updateServer(u.getUserId(), u);
         u = getCurrentUserInfo("mhykol");
-        u.addCuisineDislike(Cuisine.Categories.ASIAN_FOOD);
-        u.addCuisinePref(Cuisine.Categories.SOUTH_ASIA_FOOD);
+        u.addCuisineDislike(Cuisine.Categories.ASIAN);
+        u.addCuisinePref(Cuisine.Categories.LATIN_AMERICAN);
         updateServer(u.getUserId(), u);
         System.out.println(getRestaurants(u.getUserId(), 1230));
     }

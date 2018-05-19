@@ -2,8 +2,12 @@
   <library name="joda-time-2.4">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/joda-time-2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/gson-2.8.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/okhttp-3.10.0.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/src" />
+    </SOURCES>
   </library>
 </component>
