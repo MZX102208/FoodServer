@@ -79,6 +79,14 @@ public class ClientThread implements Runnable {
                 for (Restaurant r : restaurantList) mOutput.print(r.toString());
                 mOutput.println();
                 break;
+            case Commands.CREATE_EVENT:
+                groupId = Integer.parseInt(nextLine());
+                g = Main.groups.get(groupId);
+                Event e = Event.readInEvent(mInput);
+                e.addParticipants(mCurrentUser);
+                for(User u : g.getPeople()) e.addInvites(u);
+                g.addEvent(e);
+                break;
         }
         mOutput.println(mCurrentUser.toString());
 
